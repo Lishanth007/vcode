@@ -12,7 +12,7 @@ from os import listdir
 from os.path import isfile, join
 import smtplib
 import wikipedia
-import Gesture_Controller
+#import Gesture_Controller
 #import Gesture_Controller_Gloved as Gesture_Controller
 import app
 from threading import Thread
@@ -46,13 +46,13 @@ def wish():
     hour = int(datetime.datetime.now().hour)
 
     if hour>=0 and hour<12:
-        reply("Good Morning!")
+        reply("Good Morning Lishanth!")
     elif hour>=12 and hour<18:
-        reply("Good Afternoon!")   
+        reply("Good Afternoon Lishanth!")   
     else:
-        reply("Good Evening!")  
+        reply("Good Evening Lishanth!")  
         
-    reply("I am Proton, how may I help you?")
+    reply("I am Friday, What can i do for you!")
 
 # Set Microphone parameters
 with sr.Microphone() as source:
@@ -80,7 +80,7 @@ def record_audio():
 def respond(voice_data):
     global file_exp_status, files, is_awake, path
     print(voice_data)
-    voice_data.replace('proton','')
+    voice_data.replace('friday','')
     app.eel.addUserMsg(voice_data)
 
     if is_awake==False:
@@ -93,7 +93,10 @@ def respond(voice_data):
         wish()
 
     elif 'what is your name' in voice_data:
-        reply('My name is Proton!')
+        reply('My name is friday i am build by Lishanth!')
+    
+    elif 'i love you' in voice_data:
+        reply('ohh thanks for that i too love you so much')
 
     elif 'date' in voice_data:
         reply(today.strftime("%B %d, %Y"))
@@ -126,31 +129,7 @@ def respond(voice_data):
         reply("Good bye Sir! Have a nice day.")
         is_awake = False
 
-    elif ('exit' in voice_data) or ('terminate' in voice_data):
-        if Gesture_Controller.GestureController.gc_mode:
-            Gesture_Controller.GestureController.gc_mode = 0
-        app.ChatBot.close()
-        #sys.exit() always raises SystemExit, Handle it in main loop
-        sys.exit()
-        
     
-    # DYNAMIC CONTROLS
-    elif 'launch gesture recognition' in voice_data:
-        if Gesture_Controller.GestureController.gc_mode:
-            reply('Gesture recognition is already active')
-        else:
-            gc = Gesture_Controller.GestureController()
-            t = Thread(target = gc.start)
-            t.start()
-            reply('Launched Successfully')
-
-    elif ('stop gesture recognition' in voice_data) or ('top gesture recognition' in voice_data):
-        if Gesture_Controller.GestureController.gc_mode:
-            Gesture_Controller.GestureController.gc_mode = 0
-            reply('Gesture recognition stopped')
-        else:
-            reply('Gesture recognition is already inactive')
-        
     elif 'copy' in voice_data:
         with keyboard.pressed(Key.ctrl):
             keyboard.press('c')
@@ -196,7 +175,7 @@ def respond(voice_data):
                     app.ChatBot.addAppMsg(filestr)
                     
                 except:
-                    reply('You do not have permission to access this folder')
+                    reply('I do not have permission to access this folder')
                                     
         if 'back' in voice_data:
             filestr = ""
@@ -237,7 +216,7 @@ while True:
         voice_data = record_audio()
 
     #process voice_data
-    if 'proton' in voice_data:
+    if 'friday' in voice_data:
         try:
             #Handle sys.exit()
             respond(voice_data)
